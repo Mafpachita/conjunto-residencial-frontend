@@ -18,12 +18,12 @@ export const obtenerTicketPorId = (id) => {
   return axios.get(`${API_URL}/obtener/${id}`);
 };
 
-// (Opcional) Actualizar ticket
+// Actualizar ticket
 export const actualizarTicket = (ticket) => {
   return axios.put(`${API_URL}/actualizar`, ticket); // Si habilitas esto en el backend
 };
 
-// (Opcional) Eliminar ticket
+// Eliminar ticket
 export const eliminarTicket = (id) => {
   return axios.delete(`${API_URL}/eliminar/${id}`); // Si habilitas esto en el backend
 };

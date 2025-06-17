@@ -15,14 +15,16 @@ function Dashboard() {
       <div className="row mt-4">
 
         {/* Común para ambos */}
-        <div className="col-md-4 mb-3">
-          <div className="card" onClick={() => irA("/")}>
-            <div className="card-body text-center">
-              <i className="bi bi-person-lines-fill fs-2"></i>
-              <h5 className="mt-2">Mi Información Personal</h5>
-            </div>
-          </div>
-        </div>
+        {usuario.ROL === "Residente" && (
+  <div className="col-md-4 mb-3">
+    <div className="card" onClick={() => irA("/")}>
+      <div className="card-body text-center">
+        <i className="bi bi-person-lines-fill fs-2"></i>
+        <h5 className="mt-2">Mi Información Personal</h5>
+      </div>
+    </div>
+  </div>
+)}
 
         <div className="col-md-4 mb-3">
           <div className="card" onClick={() => irA("/avisos")}>
@@ -45,6 +47,15 @@ function Dashboard() {
                 </div>
               </div>
             </div>
+
+            <div className="col-md-4 mb-3">
+          <div className="card" onClick={() => irA("/")}>
+          <div className="card-body text-center">
+            <i className="bi bi-people fs-2"></i>
+            <h5 className="mt-2">Residentes</h5>
+        </div>
+       </div>
+    </div>
 
             <div className="col-md-4 mb-3">
               <div className="card" onClick={() => irA("/pagos")}>
@@ -76,7 +87,7 @@ function Dashboard() {
         ) : (
           <>
             <div className="col-md-4 mb-3">
-              <div className="card" onClick={() => irA("/mis-pagos")}>
+              <div className="card" onClick={() => irA("/MisPagos")}>
                 <div className="card-body text-center">
                   <i className="bi bi-receipt fs-2"></i>
                   <h5 className="mt-2">Mis Pagos</h5>
