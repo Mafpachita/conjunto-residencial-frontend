@@ -7,6 +7,9 @@ import {
 } from "../../services/agendamientoService";
 
 function AgendamientoForm() {
+
+  const usuario = JSON.parse(localStorage.getItem("usuario"));
+  
   const [agendamiento, setAgendamiento] = useState({
     IdR: "",
     ESPACIO: "",
@@ -43,14 +46,25 @@ function AgendamientoForm() {
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
+  e.preventDefault();
+
+  const datosFinales = {
+    ...agendamiento,
+    IdR: usuario.REFERENCIA_ID // Asegura que use el IdR del usuario logueado
+  };
+
+  try {
     if (esEdicion) {
-      await actualizarAgendamiento({ ID_AGENDAMIENTO: parseInt(id), ...agendamiento });
+      await actualizarAgendamiento({ ID_AGENDAMIENTO: parseInt(id), ...datosFinales });
     } else {
-      await crearAgendamiento(agendamiento);
+      await crearAgendamiento(datosFinales);
     }
     navigate("/agendamientos");
-  };
+  } catch (error) {
+    console.error("Error al guardar agendamiento:", error);
+    alert("Hubo un error al guardar.");
+  }
+};
 
   const generarOpcionesHora = () => {
   const opciones = [];
@@ -72,18 +86,31 @@ function AgendamientoForm() {
     <div className="container mt-4">
       <h2>{esEdicion ? "Editar Agendamiento" : "Nuevo Agendamiento"}</h2>
       <form onSubmit={handleSubmit} className="row g-3">
-        <div className="col-md-6">
-          <label className="form-label">IdR</label>
-          <input
-            type="text"
-            name="IdR"
-            value={agendamiento.IdR}
-            onChange={handleChange}
-            className="form-control"
-            required={!esEdicion}
-            disabled={esEdicion}
-          />
-        </div>
+        
+        {esEdicion ? (
+  <div className="col-md-6">
+    <label className="form-label">IdR</label>
+    <input
+      type="text"
+      name="IdR"
+      value={agendamiento.IdR}
+      onChange={handleChange}
+      className="form-control"
+      disabled
+    />
+  </div>
+) : (
+  <div className="col-md-6">
+    <label className="form-label">ID Residente</label>
+    <input
+      type="text"
+      className="form-control"
+      value={usuario?.REFERENCIA_ID || ""}
+      disabled
+    />
+  </div>
+)}
+
         <div className="col-md-6">
           <label className="form-label">Espacio</label>
           <select

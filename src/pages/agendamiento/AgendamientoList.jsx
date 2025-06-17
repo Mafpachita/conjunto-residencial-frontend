@@ -7,6 +7,8 @@ import {
 import { Link } from "react-router-dom";
 
 function AgendamientoList() {
+  const usuario = JSON.parse(localStorage.getItem("usuario"));
+  const esAdmin = usuario?.ROL === "Administrador";
   const [agendamientos, setAgendamientos] = useState([]);
   const [busquedaId, setBusquedaId] = useState("");
 
@@ -88,18 +90,22 @@ function AgendamientoList() {
               <td>{a.ESTADO}</td>
               <td>{a.OBSERVACION}</td>
               <td>
-                <Link
-                  to={`/agendamientos/editar/${a.ID_AGENDAMIENTO}`}
-                  className="btn btn-warning btn-sm me-2"
-                >
-                  Editar
-                </Link>
-                <button
-                  onClick={() => handleEliminar(a.ID_AGENDAMIENTO)}
-                  className="btn btn-danger btn-sm"
-                >
-                  Eliminar
-                </button>
+                 {esAdmin && (
+    <>
+      <Link
+        to={`/agendamientos/editar/${a.ID_AGENDAMIENTO}`}
+        className="btn btn-warning btn-sm me-2"
+      >
+        Editar
+      </Link>
+      <button
+        onClick={() => handleEliminar(a.ID_AGENDAMIENTO)}
+        className="btn btn-danger btn-sm"
+      >
+        Eliminar
+      </button>
+    </>
+  )}
               </td>
             </tr>
           ))}
